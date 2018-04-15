@@ -1,5 +1,7 @@
 package com.example.android.tripmanager.database.bean;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -16,14 +18,16 @@ public class UserBean {
 
     protected String mLastName;
 
-    protected long mBirthDate;
+    protected Date mBirthDate;
+
+    public static final String BIRTH_DATE_FORMAT = "dd/mm/yyyy";
 
     public UserBean() {
 
     }
 
     public UserBean(String nickname, String password, String firstName,
-                    String lastName, long birthDate) {
+                    String lastName, Date birthDate) {
         mNickname = nickname;
         mPassword = password;
         mFirstName = firstName;
@@ -63,15 +67,16 @@ public class UserBean {
         mLastName = lastName;
     }
 
-    public long getBirthDateMillis() {
+    public Date getBirthDate() {
         return mBirthDate;
     }
 
-    public Date getBirthDate() {
-        return new Date(mBirthDate);
+    public String getBirthDateAsString() {
+        DateFormat dateFormat = new SimpleDateFormat(BIRTH_DATE_FORMAT);
+        return dateFormat.format(mBirthDate);
     }
 
-    public void setBirthDate(long birthDate) {
+    public void setBirthDate(Date birthDate) {
         mBirthDate = birthDate;
     }
 

@@ -10,6 +10,11 @@ import com.example.android.tripmanager.database.exception.NicknameAlreadyExistsE
 import com.example.android.tripmanager.database.bean.UserBean;
 import com.example.android.tripmanager.database.exception.UserNotFoundException;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by jules on 26/03/18.
  */
@@ -34,7 +39,7 @@ public class UserDao {
         return db.insert(DbHelper.TABLE_USER, null, values);
     }
 
-    private boolean userExists(String nickname) {
+    public boolean userExists(String nickname) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         // Search for a user with the required nickname
@@ -98,8 +103,15 @@ public class UserDao {
         String password = cursor.getString(cursor.getColumnIndex(DbHelper.USER_PASSWORD));
         String firstName = cursor.getString(cursor.getColumnIndex(DbHelper.USER_FIRST_NAME));
         String lastName = cursor.getString(cursor.getColumnIndex(DbHelper.USER_LAST_NAME));
-        long birthDate = cursor.getLong(cursor.getColumnIndex(DbHelper.USER_BIRTH_DATE));
+        String birthDateString = cursor.getString(cursor.getColumnIndex(DbHelper.USER_BIRTH_DATE));
 
+        DateFormat birthDateFormat = new SimpleDateFormat(UserBean.BIRTH_DATE_FORMAT);
+        Date birthDate = null;
+        try {
+            birthDate = birthDateFormat.parse(birthDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return new UserBean(nickname,
                 password,
                 firstName,
@@ -113,7 +125,7 @@ public class UserDao {
         values.put(DbHelper.USER_PASSWORD, user.getPassword());
         values.put(DbHelper.USER_FIRST_NAME, user.getmFirstName());
         values.put(DbHelper.USER_LAST_NAME, user.getLastName());
-        values.put(DbHelper.USER_BIRTH_DATE, user.getBirthDateMillis());
+        values.put(DbHelper.USER_BIRTH_DATE, user.getBirthDateAsString());
         return values;
     }
 }

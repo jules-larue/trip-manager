@@ -68,7 +68,7 @@ public class DbHelper extends SQLiteOpenHelper {
             + USER_PASSWORD + " TEXT NOT NULL,"
             + USER_FIRST_NAME + " TEXT NOT NULL,"
             + USER_LAST_NAME + " TEXT NOT NULL,"
-            + USER_BIRTH_DATE + " INTEGER NOT NULL)";
+            + USER_BIRTH_DATE + " TEXT NOT NULL)";
 
     /**
      * SQL query to create "guest" table
