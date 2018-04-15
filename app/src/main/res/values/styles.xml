@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Positive button style -->
+    <style name="PositiveButton">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+
 </resources>
