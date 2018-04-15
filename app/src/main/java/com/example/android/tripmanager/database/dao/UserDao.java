@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.android.tripmanager.database.DbHelper;
 import com.example.android.tripmanager.database.exception.NicknameAlreadyExistsException;
 import com.example.android.tripmanager.database.bean.UserBean;
+import com.example.android.tripmanager.database.exception.UserNotFoundException;
 
 /**
  * Created by jules on 26/03/18.
@@ -67,7 +68,11 @@ public class UserDao {
                 new String[]{ nickname });
     }
 
-    public UserBean getUserByNickname(String nickname) {
+    public UserBean getUserByNickname(String nickname) throws UserNotFoundException {
+        if (!userExists(nickname)) {
+            throw new UserNotFoundException(nickname);
+        }
+
         UserBean result = null;
 
         SQLiteDatabase db = mDbHelper.getReadableDatabase();

@@ -27,7 +27,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String TABLE_GUEST = "guest";
     public static final String TABLE_TRIP = "trip";
     public static final String TABLE_ACTIVITY = "activity";
-    public static final String TABLE_TRIP_ACTIVITY = "tri_activity";
+    public static final String TABLE_TRIP_ACTIVITY = "trip_activity";
 
     // User columns
     public static final String USER_NICKNAME = "nickname";
@@ -63,7 +63,7 @@ public class DbHelper extends SQLiteOpenHelper {
     /**
      * SQL query to create "user" table
      */
-    public static final String CREATE_TABLE_USER = "CREATE TABLE " + TABLE_USER + "("
+    public static final String CREATE_TABLE_USER = "CREATE TABLE IF NOT EXISTS " + TABLE_USER + "("
             + USER_NICKNAME + " TEXT PRIMARY KEY,"
             + USER_PASSWORD + " TEXT NOT NULL,"
             + USER_FIRST_NAME + " TEXT NOT NULL,"
@@ -73,7 +73,7 @@ public class DbHelper extends SQLiteOpenHelper {
     /**
      * SQL query to create "guest" table
      */
-    public static final String CREATE_TABLE_GUEST = "CREATE TABLE " + TABLE_GUEST + "("
+    public static final String CREATE_TABLE_GUEST = "CREATE TABLE IF NOT EXISTS " + TABLE_GUEST + "("
             + GUEST_NICKNAME + " TEXT NOT NULL,"
             + GUEST_TRIP + " INTEGER NOT NULL,"
             + "PRIMARY KEY (" + GUEST_NICKNAME + ", " + GUEST_TRIP + "),"
@@ -83,7 +83,7 @@ public class DbHelper extends SQLiteOpenHelper {
     /**
      * SQL query to create "trip" table
      */
-    public static final String CREATE_TABLE_TRIP = "CREATE TABLE " + TABLE_TRIP + "("
+    public static final String CREATE_TABLE_TRIP = "CREATE TABLE IF NOT EXISTS " + TABLE_TRIP + "("
             + TRIP_ID + " INTEGER PRIMARY KEY,"
             + TRIP_CREATOR + " TEXT NOT NULL,"
             + TRIP_NAME + " TEXT NOT NULL,"
@@ -94,15 +94,15 @@ public class DbHelper extends SQLiteOpenHelper {
     /**
      * SQL query to create "activity" table
      */
-    public static final String CREATE_TABLE_ACTIVITY = "CREATE TABLE " + TABLE_ACTIVITY + "("
+    public static final String CREATE_TABLE_ACTIVITY = "CREATE TABLE IF NOT EXISTS " + TABLE_ACTIVITY + "("
             + ACTIVITY_ID + "INTEGER PRIMARY KEY,"
             + ACTIVITY_NAME + " TEXT NOT NULL,"
             + ACTIVITY_LOCATION + " TEXT NOT NULL)";
     /**
      * SQL query to create "trip_activity" table
      */
-    public static final String CREATE_TABLE_TRIP_ACTIVITY = "CREATE TABLE " + TABLE_ACTIVITY + "("
-            + TRIP_ACTIVITY_ACTIVITY_ID + " INTEGER PRIMARY KEY,"
+    public static final String CREATE_TABLE_TRIP_ACTIVITY = "CREATE TABLE IF NOT EXISTS " + TABLE_TRIP_ACTIVITY + "("
+            + TRIP_ACTIVITY_ACTIVITY_ID + " INTEGER,"
             + TRIP_ACTIVITY_TRIP_ID + " INTEGER NOT NULL,"
             + TRIP_ACTIVITY_RATE + " INTEGER NOT NULL,"
             + TRIP_ACTIVITY_PRICE + " INTEGER NOT NULL,"

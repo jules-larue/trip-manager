@@ -12,6 +12,7 @@ import com.example.android.tripmanager.database.bean.GuestBean;
 import com.example.android.tripmanager.database.bean.TripActivityBean;
 import com.example.android.tripmanager.database.bean.TripBean;
 import com.example.android.tripmanager.database.bean.UserBean;
+import com.example.android.tripmanager.database.exception.UserNotFoundException;
 
 public class TripDao {
 
@@ -124,7 +125,12 @@ public class TripDao {
 
         // Get the creator from database
         UserDao userDao = new UserDao(mContext);
-        UserBean creator = userDao.getUserByNickname(creatorNickname);
+        UserBean creator = null;
+        try {
+            creator = userDao.getUserByNickname(creatorNickname);
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        }
 
         return new TripBean(tripId, tripName, creator, tripStartsAt, tripEndsAt);
     }
