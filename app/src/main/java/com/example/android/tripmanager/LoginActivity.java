@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                     e.printStackTrace();
                     Toast.makeText(LoginActivity.this, "The password is incorrect.", Toast.LENGTH_LONG).show();
                 }
+
             }
         });
 
@@ -64,4 +65,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

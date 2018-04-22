@@ -16,6 +16,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignUpActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".TravelDetailActivity"></activity>
+        <activity android:name=".PersonalActivity"></activity>
+        <activity android:name=".RateActivity"></activity>
     </application>
 
 </manifest>

@@ -94,4 +94,6 @@ public class TripBean {
     public void setGuests(HashSet<UserBean> guests) {
         mGuests = guests;
     }
+
+
 }
