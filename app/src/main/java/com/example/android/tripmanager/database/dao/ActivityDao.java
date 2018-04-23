@@ -26,6 +26,18 @@ public class ActivityDao {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         return db.insert(DbHelper.TABLE_ACTIVITY, null, values);
     }
+    public long updateTrip(ActivityBean activity) {
+        ContentValues values = toContentValues(activity);
+
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        return db.update(DbHelper.TABLE_ACTIVITY, null, values);
+    }
+    public long deleteTrip(ActivityBean activity) {
+        ContentValues values = toContentValues(activity);
+
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        return db.delete(DbHelper.TABLE_ACTIVITY, null, values);
+    }
 
 
     public ArrayList<ActivityBean> getActivitiesByNameLike(String query, boolean orderByName) {
