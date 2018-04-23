@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.android.tripmanager.database.DbHelper;
-import com.example.android.tripmanager.database.bean.TripBean;
 import com.example.android.tripmanager.database.exception.NicknameAlreadyExistsException;
 import com.example.android.tripmanager.database.bean.UserBean;
 import com.example.android.tripmanager.database.exception.UserNotFoundException;
@@ -14,7 +13,6 @@ import com.example.android.tripmanager.database.exception.UserNotFoundException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -100,26 +98,6 @@ public class UserDao {
         return result;
     }
 
-    public ArrayList<TripBean> getTripByGuestName(String guestName){
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
-        Cursor cursor = db.query(DbHelper.TABLE_GUEST,
-                null,
-                DbHelper.GUEST_NICKNAME + " = ?",
-                null,
-                null,
-                null,
-                null);
-
-        //Get all trips found
-        ArrayList<TripBean> results = new ArrayList<>();
-        while(cursor.moveToNext()){
-            results.add(toTripBean(cursor));
-        }
-
-        return results;
-    }
-
     private UserBean toBean(Cursor cursor) {
         String nickname = cursor.getString(cursor.getColumnIndex(DbHelper.USER_NICKNAME));
         String password = cursor.getString(cursor.getColumnIndex(DbHelper.USER_PASSWORD));
@@ -141,16 +119,6 @@ public class UserDao {
                 birthDate);
     }
 
-    public TripBean toTripBean(Cursor cursor){
-        long id = cursor.getLong(cursor.getColumnIndex(DbHelper.TRIP_ID));
-        String creator = cursor.getString(cursor.getColumnIndex(DbHelper.TRIP_CREATOR));
-        String name = cursor.getString(cursor.getColumnIndex(DbHelper.TRIP_NAME));
-        long startsOn = cursor.getLong(cursor.getColumnIndex(DbHelper.TRIP_STARTS_ON));
-        long endsOn = cursor.getLong(cursor.getColumnIndex(DbHelper.TRIP_ENDS_ON));
-        TripBean tripBean = new TripBean(id, name, null, startsOn, endsOn);
-        return tripBean;
-    }
-
     private ContentValues toContentValues(UserBean user) {
         ContentValues values = new ContentValues();
         values.put(DbHelper.USER_NICKNAME, user.getNickname());
@@ -160,6 +128,4 @@ public class UserDao {
         values.put(DbHelper.USER_BIRTH_DATE, user.getBirthDateAsString());
         return values;
     }
-
-
 }

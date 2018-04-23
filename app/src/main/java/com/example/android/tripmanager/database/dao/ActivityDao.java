@@ -7,10 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.android.tripmanager.database.DbHelper;
 import com.example.android.tripmanager.database.bean.ActivityBean;
-import com.example.android.tripmanager.database.bean.TripActivityBean;
-import com.example.android.tripmanager.database.bean.TripBean;
 
-import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 
 public class ActivityDao {
@@ -29,21 +26,17 @@ public class ActivityDao {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         return db.insert(DbHelper.TABLE_ACTIVITY, null, values);
     }
+    public long updateTrip(ActivityBean activity) {
+        ContentValues values = toContentValues(activity);
 
-    public TripActivityBean getTripActivity(int aId) {
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        return db.update(DbHelper.TABLE_ACTIVITY, null, values);
+    }
+    public long deleteTrip(ActivityBean activity) {
+        ContentValues values = toContentValues(activity);
 
-        Cursor cursor = db.query(DbHelper.TABLE_TRIP_ACTIVITY,
-                null,
-                DbHelper.TRIP_ACTIVITY_ACTIVITY_ID + " = ?",
-                new String[]{String.valueOf(aId)},
-                null,
-                null,
-                null,
-                null);
-
-
-        return  toTripActivityBean(cursor);
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        return db.delete(DbHelper.TABLE_ACTIVITY, null, values);
     }
 
 
@@ -79,16 +72,6 @@ public class ActivityDao {
         return getActivitiesByNameLike("", orderByName);
     }
 
-    public int updateTripActivity(String aId, TripActivityBean newTripActivityInfo){
-        ContentValues updateValues = toContentValues(newTripActivityInfo);
-
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        return db.update(DbHelper.TABLE_TRIP_ACTIVITY,
-                updateValues,
-                DbHelper.TRIP_ACTIVITY_ACTIVITY_ID + "= ?",
-                new String[]{String.valueOf(aId)});
-    }
-
 
     public ContentValues toContentValues(ActivityBean activity) {
         ContentValues values = new ContentValues();
@@ -99,19 +82,6 @@ public class ActivityDao {
         return values;
     }
 
-    public TripActivityBean toTripActivityBean(Cursor cursor) {
-        long id = cursor.getLong(cursor.getColumnIndex(DbHelper.TRIP_ACTIVITY_ACTIVITY_ID));
-        int rate = cursor.getInt(cursor.getColumnIndex(DbHelper.TRIP_ACTIVITY_RATE));
-        int price = cursor.getInt(cursor.getColumnIndex(DbHelper.TRIP_ACTIVITY_PRICE));
-        long tripId = cursor.getLong(cursor.getColumnIndex(DbHelper.TRIP_ACTIVITY_TRIP_ID));
-
-        TripActivityBean tripActivity = new TripActivityBean(id,  null,  null,  -1,  -1,  rate,  price);
-        TripBean trip = new TripBean();
-        TripDao tripDao = new TripDao(mContext);
-        trip = tripDao.selectTrip((int)tripId);
-        tripActivity.setTrip(trip);
-        return tripActivity;
-    }
 
     public ActivityBean toBean(Cursor cursor) {
         // Get attributes from cursor
@@ -121,14 +91,5 @@ public class ActivityDao {
 
         // Returns the activity
         return new ActivityBean(id, name, location);
-    }
-
-    private ContentValues toContentValues(TripActivityBean tripActivity){
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DbHelper.TRIP_ACTIVITY_TRIP_ID,tripActivity.getTrip().getId());
-        contentValues.put(DbHelper.TRIP_ACTIVITY_ACTIVITY_ID,tripActivity.getId());
-        contentValues.put(DbHelper.TRIP_ACTIVITY_PRICE,tripActivity.getPrice());
-        contentValues.put(DbHelper.TRIP_ACTIVITY_RATE,tripActivity.getRate());
-        return contentValues;
     }
 }

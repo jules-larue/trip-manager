@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.android.tripmanager.database.bean.ActivityBean;
 import com.example.android.tripmanager.database.exception.ActivityAlreadyInTripException;
 import com.example.android.tripmanager.database.DbHelper;
 import com.example.android.tripmanager.database.exception.GuestAlreadyInTripException;
@@ -14,9 +13,6 @@ import com.example.android.tripmanager.database.bean.TripActivityBean;
 import com.example.android.tripmanager.database.bean.TripBean;
 import com.example.android.tripmanager.database.bean.UserBean;
 import com.example.android.tripmanager.database.exception.UserNotFoundException;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 public class TripDao {
 
@@ -34,19 +30,6 @@ public class TripDao {
 
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         return db.insert(DbHelper.TABLE_TRIP, null, values);
-    }
-
-    public TripBean selectTrip(int mId) {
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-        Cursor cursor = db.query(DbHelper.TABLE_TRIP
-                ,null
-                ,DbHelper.TRIP_ID + " = ?"
-                ,new String[]{String.valueOf(mId)}
-                ,null
-                ,null
-                ,null
-        );
-        return toBean(cursor);
     }
 
     public void addGuest(GuestBean guest) throws GuestAlreadyInTripException {
@@ -70,7 +53,6 @@ public class TripDao {
                 DbHelper.GUEST_NICKNAME + " = ? AND " + DbHelper.GUEST_TRIP + " = ?",
                 new String[]{ guest.getNickname(), tripId });
     }
-
 
     private boolean guestExists(GuestBean guest) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -133,27 +115,6 @@ public class TripDao {
         return cursor.getCount() > 0;
     }
 
-    public ArrayList<TripActivityBean> getActivityByTripId(long tripId){
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
-        Cursor cursor = db.query(DbHelper.TABLE_TRIP_ACTIVITY,
-                null,
-                DbHelper.TRIP_ACTIVITY_TRIP_ID + " = ?",
-                new String[]{String.valueOf(tripId)},
-                null,
-                null,
-                DbHelper.TRIP_ACTIVITY_STARTS_AT,
-                null);
-
-        ArrayList<TripActivityBean> results = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            results.add(toTripActivityBean(cursor));
-        }
-
-        cursor.close();
-        return results;
-    }
-
 
     private TripBean toBean(Cursor cursor) {
         long tripId = cursor.getLong(cursor.getColumnIndex(DbHelper.TRIP_ID));
@@ -172,21 +133,6 @@ public class TripDao {
         }
 
         return new TripBean(tripId, tripName, creator, tripStartsAt, tripEndsAt);
-    }
-
-    private  TripActivityBean toTripActivityBean(Cursor cursor){
-
-        long id = cursor.getLong(cursor.getColumnIndex(DbHelper.TRIP_ACTIVITY_ACTIVITY_ID));
-        int rate = cursor.getInt(cursor.getColumnIndex(DbHelper.TRIP_ACTIVITY_RATE));
-        int price = cursor.getInt(cursor.getColumnIndex(DbHelper.TRIP_ACTIVITY_PRICE));
-        long tripId = cursor.getLong(cursor.getColumnIndex(DbHelper.TRIP_ACTIVITY_TRIP_ID));
-
-        TripActivityBean tripActivity = new TripActivityBean(id,  null,  null,  -1,  -1,  rate,  price);
-        TripBean trip = new TripBean();
-        TripDao tripDao = new TripDao(mContext);
-        trip = tripDao.selectTrip((int)tripId);
-        tripActivity.setTrip(trip);
-        return tripActivity;
     }
 
     private ContentValues toContentValues(TripBean trip) {
