@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.AddTripActivity"
+    android:padding="16dp">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_trip_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/name">
+
+        <EditText
+            android:id="@+id/edit_trip_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/vertical_guideline_50"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.5"/>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_trip_start_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/from"
+        app:layout_constraintTop_toBottomOf="@id/input_layout_trip_name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/vertical_guideline_50">
+
+        <EditText
+            android:id="@+id/edit_trip_start_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:focusable="false"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_trip_end_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/to"
+        app:layout_constraintTop_toBottomOf="@id/input_layout_trip_name"
+        app:layout_constraintLeft_toRightOf="@id/vertical_guideline_50"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <EditText
+            android:id="@+id/edit_trip_end_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:focusable="false"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/btn_add_trip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_the_trip"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/input_layout_trip_end_date"
+        style="@style/PositiveButton"/>
+
+</android.support.constraint.ConstraintLayout>

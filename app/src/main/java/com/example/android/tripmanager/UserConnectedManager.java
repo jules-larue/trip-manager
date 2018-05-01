@@ -9,7 +9,7 @@ import com.example.android.tripmanager.database.exception.WrongPasswordException
 
 public class UserConnectedManager {
 
-    private static UserBean mUserConnected;
+    private static UserBean sUserConnected;
 
     public static void connectUser(Context context, String username, String password) throws UserNotFoundException, WrongPasswordException {
         UserDao userDao = new UserDao(context);
@@ -21,15 +21,18 @@ public class UserConnectedManager {
         if (password.equals(realPassword)) {
 
             // Password is OK, so we connect the user.
-            mUserConnected = userToConnect;
+            sUserConnected = userToConnect;
         } else {
             throw new WrongPasswordException(username);
         }
     }
 
-
     public void disconnectCurrentUser() {
-        mUserConnected = null;
+        sUserConnected = null;
+    }
+
+    public static UserBean getConnectedUser() {
+        return sUserConnected;
     }
 
 }

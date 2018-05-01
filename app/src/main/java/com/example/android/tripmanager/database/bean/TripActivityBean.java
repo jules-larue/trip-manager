@@ -1,5 +1,9 @@
 package com.example.android.tripmanager.database.bean;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class TripActivityBean extends ActivityBean {
 
     private TripBean mTrip;
@@ -13,6 +17,10 @@ public class TripActivityBean extends ActivityBean {
     private long mEndsAt;
 
     private long mId = -1;
+
+    public static final String DATE_FORMAT = "dd.MM.yyyy";
+    public static final String TIME_FORMAT = "HH:mm";
+    public static final String DATETIME_FORMAT = DATE_FORMAT + " " + TIME_FORMAT;
 
     public TripActivityBean() {
         super();
@@ -62,6 +70,11 @@ public class TripActivityBean extends ActivityBean {
         return mStartsAt;
     }
 
+    public String getStartsAtFormatted() {
+        DateFormat dateFormat = new SimpleDateFormat(DATETIME_FORMAT);
+        return dateFormat.format(new Date(mStartsAt));
+    }
+
     public void setStartsAt(long startsAt) {
         mStartsAt = startsAt;
     }
@@ -70,7 +83,32 @@ public class TripActivityBean extends ActivityBean {
         return mEndsAt;
     }
 
+    public String getEndsAtFormatted() {
+        DateFormat dateFormat = new SimpleDateFormat(DATETIME_FORMAT);
+        return dateFormat.format(new Date(mEndsAt));
+    }
+
     public void setEndsAt(long endsAt) {
         mEndsAt = endsAt;
+    }
+
+    public String getStartTimeFormatted() {
+        DateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT);
+        return timeFormat.format(mStartsAt);
+    }
+
+    public String getStartDateFormatted() {
+        DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+        return dateFormat.format(mStartsAt);
+    }
+
+    public String getEndTimeFormatted() {
+        DateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT);
+        return timeFormat.format(mEndsAt);
+    }
+
+    public String getEndDateFormatted() {
+        DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+        return dateFormat.format(mEndsAt);
     }
 }

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.android.tripmanager.database.DbHelper;
 import com.example.android.tripmanager.database.bean.ActivityBean;
@@ -28,18 +29,6 @@ public class ActivityDao {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         return db.insert(DbHelper.TABLE_ACTIVITY, null, values);
     }
-    public long updateTrip(ActivityBean activity) {
-        ContentValues values = toContentValues(activity);
-
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        return db.update(DbHelper.TABLE_ACTIVITY, null, values);
-    }
-    public long deleteTrip(ActivityBean activity) {
-        ContentValues values = toContentValues(activity);
-
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        return db.delete(DbHelper.TABLE_ACTIVITY, null, values);
-    }
 
     public TripActivityBean getTripActivity(int aId) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -54,7 +43,33 @@ public class ActivityDao {
                 null);
 
 
-        return  toTripActivityBean(cursor);
+        return toTripActivityBean(cursor);
+    }
+
+
+    public ActivityBean getActivityById(long activityId) {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        Cursor cursor = db.query(DbHelper.TABLE_ACTIVITY,
+                null,
+                DbHelper.ACTIVITY_ID + " = ?",
+                new String[]{ String.valueOf(activityId) },
+                null,
+                null,
+                null);
+
+        ActivityBean activity = null;
+        if (cursor.moveToNext()) {
+            activity = toBean(cursor);
+        }
+
+        return activity;
+    }
+
+
+    public long insertActivity(ActivityBean activityBean) {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        ContentValues values = toContentValues(activityBean);
+        return db.insert(DbHelper.TABLE_ACTIVITY, null, values);
     }
 
 
@@ -62,11 +77,11 @@ public class ActivityDao {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         // Build "ORDER BY" clause according to the argument `orderByName`
-        String orderByClause = orderByName ? DbHelper.ACTIVITY_NAME + " ACS" : null;
+        String orderByClause = orderByName ? DbHelper.ACTIVITY_NAME : "";
         Cursor cursor = db.query(DbHelper.TABLE_ACTIVITY,
                 null,
-                DbHelper.ACTIVITY_NAME + " LIKE %?%",
-                new String[]{ query },
+                DbHelper.ACTIVITY_NAME + " LIKE ?",
+                new String[]{ "%" + query + "%" },
                 null,
                 null,
                 orderByClause,
@@ -90,12 +105,35 @@ public class ActivityDao {
         return getActivitiesByNameLike("", orderByName);
     }
 
-    public int updateTripActivity(String aId, TripActivityBean newTripActivityInfo){
-        ContentValues updateValues = toContentValues(newTripActivityInfo);
+    public ArrayList<ActivityBean> getAllActivitiesWithAverage(boolean orderByName) {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        ArrayList<ActivityBean> activities = getAllActivities(true);
+        for (ActivityBean activity : activities) {
+
+            // Compute the average price and rate for each activity
+            long activityId = activity.getId();
+            Cursor cursorAverage = db.rawQuery("SELECT AVG(" + DbHelper.TRIP_ACTIVITY_PRICE + "), AVG(" + DbHelper.TRIP_ACTIVITY_RATE
+                    + ") FROM " + DbHelper.TABLE_TRIP_ACTIVITY
+                    + " WHERE " + DbHelper.TRIP_ACTIVITY_ACTIVITY_ID + " = ?",
+                    new String[]{ String.valueOf(activityId) });
+
+            if (cursorAverage.moveToFirst()) {
+                float avgPrice = cursorAverage.getFloat(0);
+                float avgRate = cursorAverage.getFloat(1);
+                activity.setAvgPrice(avgPrice);
+                activity.setAvgRate(avgRate);
+            }
+        }
+
+        return activities;
+    }
+
+    public int updateTripActivity(long aId, TripActivityBean newTripActivityInfo){
+        ContentValues updatedValues = toContentValues(newTripActivityInfo);
 
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         return db.update(DbHelper.TABLE_TRIP_ACTIVITY,
-                updateValues,
+                updatedValues,
                 DbHelper.TRIP_ACTIVITY_ACTIVITY_ID + "= ?",
                 new String[]{String.valueOf(aId)});
     }
@@ -109,18 +147,76 @@ public class ActivityDao {
         return values;
     }
 
+
     public TripActivityBean toTripActivityBean(Cursor cursor) {
-        long id = cursor.getLong(cursor.getColumnIndex(DbHelper.TRIP_ACTIVITY_ACTIVITY_ID));
+        long activityId = cursor.getLong(cursor.getColumnIndex(DbHelper.TRIP_ACTIVITY_ACTIVITY_ID));
+
+        // Get related activity
+        ActivityBean activityBean = getActivityById(activityId);
+
         int rate = cursor.getInt(cursor.getColumnIndex(DbHelper.TRIP_ACTIVITY_RATE));
         int price = cursor.getInt(cursor.getColumnIndex(DbHelper.TRIP_ACTIVITY_PRICE));
+        long startsAt = cursor.getLong(cursor.getColumnIndex(DbHelper.TRIP_ACTIVITY_STARTS_AT));
+        long endsAt = cursor.getLong(cursor.getColumnIndex(DbHelper.TRIP_ACTIVITY_ENDS_AT));
         long tripId = cursor.getLong(cursor.getColumnIndex(DbHelper.TRIP_ACTIVITY_TRIP_ID));
 
-        TripActivityBean tripActivity = new TripActivityBean(id,  null,  null,  -1,  -1,  rate,  price);
+        TripActivityBean tripActivity = new TripActivityBean(activityBean.getName(),
+                activityBean.getLocation(),
+                startsAt,
+                endsAt,
+                rate,
+                price);
+
         TripBean trip = new TripBean();
         TripDao tripDao = new TripDao(mContext);
         trip = tripDao.selectTrip((int)tripId);
         tripActivity.setTrip(trip);
         return tripActivity;
+    }
+
+    /**
+     * Computes the average price of an activity
+     * from the database.
+     * @param activityId the id of the activity we want to have
+     *                   the average price of
+     * @return the average price of the activity or -1 if no price is found for the activity
+     */
+    public float getAverageActivityPrice(long activityId) {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT SUM(" + DbHelper.TRIP_ACTIVITY_PRICE
+                + ") FROM " + DbHelper.TABLE_TRIP_ACTIVITY
+                + " WHERE " + DbHelper.TRIP_ACTIVITY_ACTIVITY_ID + " = ?",
+                new String[]{ String.valueOf(activityId) },
+                null);
+
+        if (cursor.moveToNext()) {
+            return cursor.getFloat(0);
+        } else {
+            return -1;
+        }
+    }
+
+
+    /**
+     * Computes the average rate of an activity
+     * from the database.
+     * @param activityId the id of the activity we want to have
+     *                   the average rate of
+     * @return the average price of the activity or -1 if no price is found for the activity
+     */
+    public float getAverageActivityRate(long activityId) {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT AVG(" + DbHelper.TRIP_ACTIVITY_RATE
+                        + ") FROM " + DbHelper.TABLE_TRIP_ACTIVITY
+                        + " WHERE " + DbHelper.TRIP_ACTIVITY_ACTIVITY_ID + " = ?",
+                new String[]{ String.valueOf(activityId) },
+                null);
+
+        if (cursor.moveToNext()) {
+            return cursor.getFloat(0);
+        } else {
+            return -1;
+        }
     }
 
 

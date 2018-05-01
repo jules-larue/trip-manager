@@ -9,14 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".activities.InsertActivity" />
+        <activity android:name=".activity.SignUpActivity" />
+        <activity android:name=".activity.EditTripActivityActivity" />
+        <activity android:name=".activity.AddTripActivityActivity" />
+        <activity android:name=".activity.TripActivitiesListActivity" />
+        <activity android:name=".activity.AllActivitiesActivity" />
+        <activity android:name=".activity.AddTripActivity" />
+        <activity android:name=".activity.GuestsListActivity" />
+        <activity android:name=".activity.HomeActivity" />
     </application>
 
 </manifest>

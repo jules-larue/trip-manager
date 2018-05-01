@@ -1,5 +1,7 @@
 package com.example.android.tripmanager.database.bean;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -14,36 +16,43 @@ public class TripBean {
 
     protected UserBean mCreator;
 
-    protected long mStartsAt;
+    protected String mStartsOn;
 
-    protected long mEndsAt;
+    protected String mEndsOn;
 
-    protected HashSet<UserBean> mGuests;
+    protected ArrayList<UserBean> mGuests;
+
+    protected ArrayList<TripActivityBean> mActivities;
+
+    public static final String DATE_FORMAT = "dd.MM.yyyy";
 
     public TripBean() {
 
     }
 
-    public TripBean(String name, UserBean creator, long startsAt, long endsAt) {
+    public TripBean(String name, UserBean creator, String startsOn, String endsOn) {
         mName = name;
         mCreator = creator;
-        mStartsAt = startsAt;
-        mEndsAt = endsAt;
+        mStartsOn = startsOn;
+        mEndsOn = endsOn;
     }
 
-    public TripBean(long id, String name, UserBean creator, long startsAt, long endsAt) {
-        this(name, creator, startsAt, endsAt);
+    public TripBean(long id, String name, UserBean creator, String startsOn,
+                    String endsOn) {
+        this(name, creator, startsOn, endsOn);
         mId = id;
     }
 
-    public TripBean(String name, UserBean creator, long startsAt, long endsAt, HashSet<UserBean> guests) {
-        this(name, creator, startsAt, endsAt);
-        mEndsAt = endsAt;
+    public TripBean(String name, UserBean creator, String startsOn, String endsOn,
+                    ArrayList<UserBean> guests) {
+        this(name, creator, startsOn, endsOn);
+        mEndsOn = endsOn;
         mGuests = guests;
     }
 
-    public TripBean(long id, String name, UserBean creator, long startAt, long endsAt, HashSet<UserBean> guests) {
-        this(name, creator, startAt, endsAt, guests);
+    public TripBean(long id, String name, UserBean creator, String startOn,
+                    String endsOn, ArrayList<UserBean> guests) {
+        this(name, creator, startOn, endsOn, guests);
         mId = id;
     }
 
@@ -71,27 +80,43 @@ public class TripBean {
         this.mName = mName;
     }
 
-    public long getStartsAt() {
-        return mStartsAt;
+    public String getStartsOn() {
+        return mStartsOn;
     }
 
-    public void setStartsAt(long startsAt) {
-        mStartsAt = startsAt;
+    public void setStartsOn(String startsOn) {
+        mStartsOn = startsOn;
     }
 
-    public long getEndsAt() {
-        return mEndsAt;
+    public String getEndsOn() {
+        return mEndsOn;
     }
 
-    public void setEndsAt(long endsAt) {
-        mEndsAt = endsAt;
+    public void setEndsOn(String endsOn) {
+        mEndsOn = endsOn;
     }
 
-    public HashSet<UserBean> getGuests() {
+    public ArrayList<UserBean> getGuests() {
         return mGuests;
     }
 
-    public void setGuests(HashSet<UserBean> guests) {
+    public void setGuests(ArrayList<UserBean> guests) {
         mGuests = guests;
+    }
+
+    public ArrayList<TripActivityBean> getActivities() {
+        return mActivities;
+    }
+
+    public void setActivities(ArrayList<TripActivityBean> activities) {
+        mActivities = activities;
+    }
+
+    public void addGuest(UserBean newGuest) {
+        mGuests.add(newGuest);
+    }
+
+    public void deleteGuest(UserBean guestToDelete) {
+        mGuests.remove(guestToDelete);
     }
 }

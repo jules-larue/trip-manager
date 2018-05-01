@@ -9,6 +9,68 @@
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
     <string name="confirm_password">Confirm your password</string>
-    <string name="birth_date_with_format">Birth date (dd/MM/YYYY)</string>
+    <string name="birth_date">Birth date</string>
     <string name="submit">Submit</string>
+
+    <string name="all_trips">All trips</string>
+    <string name="your_trips">Your trips</string>
+    <string name="your_account">Your account</string>
+    <string name="firstname_lastname">%s %s</string>
+    <string name="n_trip_owned">%d trip owned</string>
+    <string name="n_trips_owned">%d trips owned</string>
+    <string name="n_trip_joined">%d trip joined</string>
+    <string name="n_trips_joined">%d trips joined</string>
+
+    <string name="create_trip_trip">Create a trip</string>
+    <string name="add_activity_to_trip">Add a trip activity</string>
+    <string name="choose_existing_activity">Choose an existing activity</string>
+    <string name="edit_activity">Edit activity</string>
+    <string name="trip_guests">Trip guests</string>
+    <string name="trip_details">Trip details</string>
+
+    <string-array name="rates">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string name="price_value_int">%d€</string>
+    <string name="price_value_float">%.1f€</string>
+    <string name="rate_value_int">%d/5</string>
+    <string name="rate_value_float">%.1f/5</string>
+
+    <string name="title_confirm_delete_trip_activity">Are you sure you want to delete this activity from the trip?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="skip">Skip</string>
+
+    <string name="date_range">%s to %s</string>
+    <string name="view">View</string>
+    <string name="join">Join</string>
+    <string name="leave">Leave</string>
+
+    <string name="name">Name</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="to_lowercase">to</string>
+    <string name="add_a_trip">Add a trip</string>
+    <string name="create_the_trip">Create the trip</string>
+    <string name="no_activity">No activity in this trip.</string>
+
+    <string name="location">Location</string>
+    <string name="rate">Rate</string>
+    <string name="price">Price</string>
+    <string name="starts_at">Starts at</string>
+    <string name="ends_at">Ends at</string>
+    <string name="add_the_activity">Add the activity</string>
+
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+
+    <string name="name_and_age">%s %s, %d</string>
+
 </resources>

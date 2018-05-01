@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/item_your_trips"
+        android:title="@string/your_trips"
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+        android:icon="@drawable/ic_flight_takeoff_black_24dp"
+        app:itemTextColor="@color/white">
+    </item>
+
+    <item
+        android:id="@+id/item_all_trips"
+        android:title="@string/all_trips"
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+        android:icon="@drawable/ic_public_black_24dp">
+    </item>
+
+    <item
+        android:id="@+id/item_your_account"
+        android:title="@string/your_account"
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+        android:icon="@drawable/ic_person_black_24dp">
+    </item>
+
+</menu>

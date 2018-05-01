@@ -12,6 +12,10 @@ public class ActivityBean {
 
     private String mLocation;
 
+    private float mAvgPrice;
+
+    private float mAvgRate;
+
     public ActivityBean() {
 
     }
@@ -48,5 +52,21 @@ public class ActivityBean {
 
     public void setLocation(String location) {
         mLocation = location;
+    }
+
+    public float getAvgPrice() {
+        return mAvgPrice;
+    }
+
+    public void setAvgPrice(float avgPrice) {
+        mAvgPrice = avgPrice;
+    }
+
+    public float getAvgRate() {
+        return mAvgRate;
+    }
+
+    public void setAvgRate(float avgRate) {
+        mAvgRate = avgRate;
     }
 }

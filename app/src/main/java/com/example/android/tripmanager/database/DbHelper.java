@@ -84,7 +84,7 @@ public class DbHelper extends SQLiteOpenHelper {
      * SQL query to create "trip" table
      */
     public static final String CREATE_TABLE_TRIP = "CREATE TABLE IF NOT EXISTS " + TABLE_TRIP + "("
-            + TRIP_ID + " INTEGER PRIMARY KEY,"
+            + TRIP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
             + TRIP_CREATOR + " TEXT NOT NULL,"
             + TRIP_NAME + " TEXT NOT NULL,"
             + TRIP_STARTS_ON + " TEXT NOT NULL,"
@@ -95,17 +95,19 @@ public class DbHelper extends SQLiteOpenHelper {
      * SQL query to create "activity" table
      */
     public static final String CREATE_TABLE_ACTIVITY = "CREATE TABLE IF NOT EXISTS " + TABLE_ACTIVITY + "("
-            + ACTIVITY_ID + "INTEGER PRIMARY KEY,"
+            + ACTIVITY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
             + ACTIVITY_NAME + " TEXT NOT NULL,"
             + ACTIVITY_LOCATION + " TEXT NOT NULL)";
     /**
      * SQL query to create "trip_activity" table
      */
     public static final String CREATE_TABLE_TRIP_ACTIVITY = "CREATE TABLE IF NOT EXISTS " + TABLE_TRIP_ACTIVITY + "("
-            + TRIP_ACTIVITY_ACTIVITY_ID + " INTEGER,"
+            + TRIP_ACTIVITY_ACTIVITY_ID + " INTEGER NOT NULL,"
             + TRIP_ACTIVITY_TRIP_ID + " INTEGER NOT NULL,"
-            + TRIP_ACTIVITY_RATE + " INTEGER NOT NULL,"
+            + TRIP_ACTIVITY_RATE + " INTEGER,"
             + TRIP_ACTIVITY_PRICE + " INTEGER NOT NULL,"
+            + TRIP_ACTIVITY_STARTS_AT + " INTEGER NOT NULL,"
+            + TRIP_ACTIVITY_ENDS_AT + " INTEGER NOT NULL,"
             + "PRIMARY KEY (" + TRIP_ACTIVITY_ACTIVITY_ID + ", " + TRIP_ACTIVITY_TRIP_ID + "),"
             + "FOREIGN KEY (" + TRIP_ACTIVITY_ACTIVITY_ID + ") REFERENCES " + TABLE_ACTIVITY + "(" + ACTIVITY_ID + "),"
             + "FOREIGN KEY (" + TRIP_ACTIVITY_TRIP_ID + ") REFERENCES " + TABLE_TRIP + "(" + TRIP_ID + "))";

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.EditTripActivityActivity"
+    android:padding="16dp">
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/vertical_guideline_50"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/vertical_guideline_50"
+        android:hint="@string/price">
+
+        <EditText
+            android:id="@+id/edit_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:inputType="number" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <TextView
+        android:id="@+id/tv_label_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rate"
+        app:layout_constraintLeft_toRightOf="@id/vertical_guideline_50"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <Spinner
+        android:id="@+id/edit_rate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/rates"
+        app:layout_constraintTop_toBottomOf="@id/tv_label_rate"
+        app:layout_constraintLeft_toRightOf="@id/vertical_guideline_50"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_starts_at"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/starts_at"
+        app:layout_constraintTop_toBottomOf="@id/input_layout_price"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/vertical_guideline_50" >
+
+        <EditText
+            android:id="@+id/edit_starts_at"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_ends_at"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/input_layout_starts_at"
+        app:layout_constraintBottom_toBottomOf="@id/input_layout_starts_at"
+        app:layout_constraintLeft_toRightOf="@id/vertical_guideline_50"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <EditText
+            android:id="@+id/edit_ends_at"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+
+
+    <Button
+        android:id="@+id/btn_edit_trip_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save changes"
+        style="@style/PositiveButton"
+        app:layout_constraintTop_toBottomOf="@id/input_layout_ends_at"/>
+
+
+</android.support.constraint.ConstraintLayout>

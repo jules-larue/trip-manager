@@ -1,5 +1,7 @@
 package com.example.android.tripmanager.database.bean;
 
+import com.example.android.tripmanager.util.DateUtils;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,7 +22,7 @@ public class UserBean {
 
     protected Date mBirthDate;
 
-    public static final String BIRTH_DATE_FORMAT = "dd/mm/yyyy";
+    public static final String BIRTH_DATE_FORMAT = "dd.mm.yyyy";
 
     public UserBean() {
 
@@ -51,7 +53,7 @@ public class UserBean {
         mPassword = password;
     }
 
-    public String getmFirstName() {
+    public String getFirstName() {
         return mFirstName;
     }
 
@@ -80,4 +82,14 @@ public class UserBean {
         mBirthDate = birthDate;
     }
 
+    public int getAge() {
+        return DateUtils.computeAge(mBirthDate);
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        UserBean other = (UserBean) obj;
+        return mNickname.equals(other.getNickname());
+    }
 }

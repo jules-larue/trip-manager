@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="16dp">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <!-- The name of trip -->
+        <TextView
+            android:id="@+id/tv_trip_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Walt Disney World"
+            android:textSize="18sp"
+            android:textColor="@color/black"/>
+
+        <ImageView
+            android:id="@+id/ic_creator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_person_outline_black_18dp"
+            android:backgroundTint="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/tv_trip_name"/>
+
+        <TextView
+            android:id="@+id/tv_trip_creator"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="JulesLarue"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            app:layout_constraintTop_toTopOf="@id/ic_creator"
+            app:layout_constraintBottom_toBottomOf="@id/ic_creator"
+            app:layout_constraintLeft_toRightOf="@id/ic_creator"/>
+
+        <ImageView
+            android:id="@+id/ic_calendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_date_range_black_18dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_trip_creator"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_trip_dates"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="28.07.2018 to 02.08.2018"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            app:layout_constraintTop_toTopOf="@id/ic_calendar"
+            app:layout_constraintBottom_toBottomOf="@id/ic_calendar"
+            app:layout_constraintLeft_toRightOf="@id/ic_calendar"/>
+
+        <ImageView
+            android:id="@+id/ic_nb_activities"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_list_black_18dp"
+            app:layout_constraintTop_toBottomOf="@id/ic_calendar"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_nb_activities"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="4 activities"
+            android:textSize="14sp"
+            android:layout_marginStart="8dp"
+            android:textAlignment="center"
+            app:layout_constraintTop_toTopOf="@id/ic_nb_activities"
+            app:layout_constraintBottom_toBottomOf="@id/ic_nb_activities"
+            app:layout_constraintLeft_toRightOf="@+id/ic_nb_activities"
+            android:textColor="@color/black"/>
+
+
+        <android.support.constraint.Guideline
+            android:id="@+id/vertical_guideline_50"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_percent="0.5"/>
+
+        <ImageView
+            android:id="@+id/ic_guests"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_group_black_18dp"
+            app:layout_constraintTop_toTopOf="@id/ic_nb_activities"
+            app:layout_constraintBottom_toBottomOf="@id/ic_nb_activities"
+            app:layout_constraintRight_toRightOf="@id/vertical_guideline_50"/>
+
+        <TextView
+            android:id="@+id/tv_nb_guests"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="3 guests"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            app:layout_constraintTop_toTopOf="@id/ic_guests"
+            app:layout_constraintBottom_toBottomOf="@id/ic_guests"
+            app:layout_constraintLeft_toRightOf="@id/ic_guests"/>
+
+        <Button
+            android:id="@+id/btn_join_trip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:text="@string/join"
+            app:layout_constraintTop_toBottomOf="@id/ic_nb_activities"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/btn_view_trip"/>
+
+
+        <Button
+            android:id="@+id/btn_leave_trip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:text="@string/leave"
+            app:layout_constraintTop_toBottomOf="@id/ic_nb_activities"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/btn_view_trip"/>
+
+        <Button
+            android:id="@+id/btn_view_trip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:text="@string/view"
+            app:layout_constraintTop_toBottomOf="@id/ic_nb_activities"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</android.support.v7.widget.CardView>

@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by jules on 26/03/18.
@@ -100,7 +101,7 @@ public class UserDao {
         return result;
     }
 
-    public ArrayList<TripBean> getTripByGuestName(String guestName){
+    public ArrayList<TripBean> getTripsByGuestName(String guestName){
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         Cursor cursor = db.query(DbHelper.TABLE_GUEST,
@@ -120,7 +121,48 @@ public class UserDao {
         return results;
     }
 
-    private UserBean toBean(Cursor cursor) {
+    /**
+     * Gets the number of trips that a user
+     * has created.
+     * @param userNickname the nickname of the user
+     * we want to know the number of trips created
+     */
+    public int getNbTripsOwned(String userNickname) {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+        Cursor cursor = db.query(DbHelper.TABLE_TRIP,
+                null,
+                DbHelper.TRIP_CREATOR + " = ?",
+                new String[]{ userNickname },
+                null,
+                null,
+                null);
+        return cursor.getCount();
+    }
+
+    /**
+     * Gets the number of trips that a user
+     * has joined as a guest.
+     * The trips that a user has created (owner) are
+     * ignored.
+     * @param userNickname the nickname of the user
+     * we want to know the number of trips joined.
+     */
+    public int getNbTripsJoined(String userNickname) {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+        Cursor cursor = db.query(DbHelper.TABLE_GUEST,
+                null,
+                DbHelper.GUEST_NICKNAME + " = ?",
+                new String[]{ userNickname },
+                null,
+                null,
+                null);
+        return cursor.getCount();
+    }
+
+
+    public static UserBean toBean(Cursor cursor) {
         String nickname = cursor.getString(cursor.getColumnIndex(DbHelper.USER_NICKNAME));
         String password = cursor.getString(cursor.getColumnIndex(DbHelper.USER_PASSWORD));
         String firstName = cursor.getString(cursor.getColumnIndex(DbHelper.USER_FIRST_NAME));
@@ -145,17 +187,16 @@ public class UserDao {
         long id = cursor.getLong(cursor.getColumnIndex(DbHelper.TRIP_ID));
         String creator = cursor.getString(cursor.getColumnIndex(DbHelper.TRIP_CREATOR));
         String name = cursor.getString(cursor.getColumnIndex(DbHelper.TRIP_NAME));
-        long startsOn = cursor.getLong(cursor.getColumnIndex(DbHelper.TRIP_STARTS_ON));
-        long endsOn = cursor.getLong(cursor.getColumnIndex(DbHelper.TRIP_ENDS_ON));
-        TripBean tripBean = new TripBean(id, name, null, startsOn, endsOn);
-        return tripBean;
+        String startsOn = cursor.getString(cursor.getColumnIndex(DbHelper.TRIP_STARTS_ON));
+        String endsOn = cursor.getString(cursor.getColumnIndex(DbHelper.TRIP_ENDS_ON));
+        return new TripBean(id, name, null, startsOn, endsOn);
     }
 
     private ContentValues toContentValues(UserBean user) {
         ContentValues values = new ContentValues();
         values.put(DbHelper.USER_NICKNAME, user.getNickname());
         values.put(DbHelper.USER_PASSWORD, user.getPassword());
-        values.put(DbHelper.USER_FIRST_NAME, user.getmFirstName());
+        values.put(DbHelper.USER_FIRST_NAME, user.getFirstName());
         values.put(DbHelper.USER_LAST_NAME, user.getLastName());
         values.put(DbHelper.USER_BIRTH_DATE, user.getBirthDateAsString());
         return values;
