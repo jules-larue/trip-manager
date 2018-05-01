@@ -73,4 +73,7 @@
 
     <string name="name_and_age">%s %s, %d</string>
 
+    <string name="how_is_activity">How is the activity?</string>
+    <string name="save_changes">Save changes</string>
+
 </resources>

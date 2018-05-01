@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ public class EditTripActivityActivity extends AppCompatActivity {
 
     private long mTripActivityId;
 
-    private Spinner mSpinnerRate;
+    private RatingBar mRatingBar;
     private EditText mEditPrice;
     private EditText mEditStartsAt;
     private EditText mEditEndsAt;
@@ -40,7 +41,7 @@ public class EditTripActivityActivity extends AppCompatActivity {
                 .getLong(EXTRA_TRIP_ACTIVITY_ID, -1);
 
         // Init widgets
-        mSpinnerRate = findViewById(R.id.edit_rate);
+        mRatingBar = findViewById(R.id.rating_bar);
         mEditPrice = findViewById(R.id.edit_price);
         mEditStartsAt = findViewById(R.id.edit_starts_at);
         mEditEndsAt = findViewById(R.id.edit_ends_at);
@@ -56,7 +57,7 @@ public class EditTripActivityActivity extends AppCompatActivity {
         // Get the trip activity and display its info
         final TripDao tripDao = new TripDao(getApplicationContext());
         final TripActivityBean tripActivity = tripDao.getTripActivityById(mTripActivityId);
-        mSpinnerRate.setSelection(tripActivity.getRate());
+        mRatingBar.setRating(tripActivity.getRate());
         mEditPrice.setText(String.valueOf(tripActivity.getPrice()));
         mEditStartsAt.setText(tripActivity.getStartsAtFormatted());
         mEditEndsAt.setText(tripActivity.getEndsAtFormatted());
@@ -68,7 +69,7 @@ public class EditTripActivityActivity extends AppCompatActivity {
                 EditFormValidator validator = new EditFormValidator();
                 if (validator.validate()) {
                     // Update the activity
-                    int rate = Integer.parseInt((String) mSpinnerRate.getSelectedItem());
+                    int rate = (int) Float.parseFloat(String.valueOf(mRatingBar.getRating()));
                     int price = Integer.parseInt(mEditPrice.getText().toString());
                     String startsAt = mEditStartsAt.getText().toString();
                     String endsAt = mEditEndsAt.getText().toString();
@@ -106,13 +107,13 @@ public class EditTripActivityActivity extends AppCompatActivity {
 
         public boolean validate() {
             // Get fields values
-            String rate = mSpinnerRate.getSelectedItem().toString();
             String price = mEditPrice.getText().toString();
             String startsAt = mEditStartsAt.getText().toString();
             String endsAt = mEditEndsAt.getText().toString();
 
-            if (rate.isEmpty() || price.isEmpty()
-                    || startsAt.isEmpty() || endsAt.isEmpty()) {
+            if (price.isEmpty()
+                    || startsAt.isEmpty()
+                    || endsAt.isEmpty()) {
                 return false;
             }
 
