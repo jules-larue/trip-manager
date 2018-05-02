@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.android.tripmanager.R;
+import com.example.android.tripmanager.fragment.NewsFeedFragment;
 import com.example.android.tripmanager.fragment.TripsListFragment;
 import com.example.android.tripmanager.fragment.YourAccountFragment;
 
@@ -46,6 +47,10 @@ public class HomeActivity extends AppCompatActivity {
                         mCurrentFragment = new TripsListFragment();
                         bundle.putSerializable(TripsListFragment.EXTRA_TRIP_SELECTION,
                                 TripsListFragment.TripSelection.ALL_TRIPS);
+                        break;
+
+                    case R.id.item_news_feed:
+                        mCurrentFragment = new NewsFeedFragment();
                         break;
 
                     case R.id.item_your_account:

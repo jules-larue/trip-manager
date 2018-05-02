@@ -181,9 +181,9 @@ public class TripDao {
         String query = "SELECT *" +
                 " FROM " + DbHelper.TABLE_ACTIVITY + " natural join " + DbHelper.TABLE_TRIP_ACTIVITY +
                 " WHERE " + DbHelper.TRIP_ACTIVITY_TRIP_ID + " = ?" +
-                    " AND " + DbHelper.TRIP_ACTIVITY_ACTIVITY_ID + " = " + DbHelper.ACTIVITY_ID +
+                " AND " + DbHelper.TRIP_ACTIVITY_ACTIVITY_ID + " = " + DbHelper.ACTIVITY_ID +
                 " ORDER BY " + DbHelper.TRIP_ACTIVITY_STARTS_AT;
-       Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(tripId) });
+        Cursor cursor = db.rawQuery(query, new String[]{ String.valueOf(tripId) });
 
         ArrayList<TripActivityBean> results = new ArrayList<>();
         while (cursor.moveToNext()) {
@@ -271,23 +271,39 @@ public class TripDao {
      * @return
      */
     public ArrayList<TripBean> getUserTrips(boolean withGuests, boolean withActivities,
-                                        String userNickname) {
+                                            String userNickname) {
         ArrayList<TripBean> allTrips = new ArrayList<>();
 
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-        // Select trips where user is the creator or a guest
-        String query = "SELECT *"
-                + " FROM " + DbHelper.TABLE_TRIP + " natural join " + DbHelper.TABLE_GUEST
-                + " WHERE " + DbHelper.TABLE_TRIP + "." + DbHelper.TRIP_ID + " = " + DbHelper.TABLE_GUEST + "." + DbHelper.GUEST_TRIP
-                    + " AND ("
-                        + DbHelper.GUEST_NICKNAME + " = ?"
-                        + " OR " + DbHelper.TRIP_CREATOR + " = ?"
-                    + ")"
-                    + " AND " + DbHelper.GUEST_NICKNAME + " <> " + DbHelper.TRIP_CREATOR;
 
-        Cursor cursor = db.rawQuery(query, new String[]{ userNickname, userNickname });
+        Cursor cursorTripsOwned = db.query(DbHelper.TABLE_TRIP,
+                null,
+                DbHelper.TRIP_CREATOR + " = ?",
+                new String[]{ userNickname },
+                null,
+                null,
+                null);
 
+        Cursor cursorTripsJoined = db.query(DbHelper.TABLE_TRIP + " natural join " + DbHelper.TABLE_GUEST,
+                null,
+                DbHelper.GUEST_NICKNAME + " = ?",
+                new String[]{ userNickname },
+                null,
+                null,
+                null);
+
+        allTrips.addAll(buildTrips(cursorTripsOwned, withActivities, withGuests));
+        allTrips.addAll(buildTrips(cursorTripsJoined, withActivities, withGuests));
+        cursorTripsOwned.close();
+        cursorTripsJoined.close();
+
+        return allTrips;
+    }
+
+    private ArrayList<TripBean> buildTrips(Cursor cursor, boolean withActivities,
+                                           boolean withGuests) {
+        ArrayList<TripBean> trips = new ArrayList<>();
         while (cursor.moveToNext()) {
             // Build the trip
             TripBean trip = toBean(cursor);
@@ -303,11 +319,10 @@ public class TripDao {
                 ArrayList<UserBean> guests = getGuestsByTripId(trip.getId());
                 trip.setGuests(guests);
             }
-            allTrips.add(trip);
+            trips.add(trip);
         }
-        cursor.close();
 
-        return allTrips;
+        return trips;
     }
 
 

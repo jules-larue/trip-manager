@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="16dp">
+    android:layout_marginTop="16dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,7 +15,6 @@
             android:id="@+id/tv_trip_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Walt Disney World"
             android:textSize="18sp"
             android:textColor="@color/black"/>
 
@@ -32,7 +31,6 @@
             android:id="@+id/tv_trip_creator"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="JulesLarue"
             android:textSize="14sp"
             android:textColor="@color/black"
             android:layout_marginStart="8dp"
@@ -53,7 +51,6 @@
             android:id="@+id/tv_trip_dates"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="28.07.2018 to 02.08.2018"
             android:textSize="14sp"
             android:textColor="@color/black"
             android:layout_marginStart="8dp"
@@ -74,7 +71,6 @@
             android:id="@+id/tv_nb_activities"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="4 activities"
             android:textSize="14sp"
             android:layout_marginStart="8dp"
             android:textAlignment="center"
@@ -104,7 +100,6 @@
             android:id="@+id/tv_nb_guests"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="3 guests"
             android:textSize="14sp"
             android:textColor="@color/black"
             android:layout_marginStart="8dp"

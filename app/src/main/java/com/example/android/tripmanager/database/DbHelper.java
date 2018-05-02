@@ -28,6 +28,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String TABLE_TRIP = "trip";
     public static final String TABLE_ACTIVITY = "activity";
     public static final String TABLE_TRIP_ACTIVITY = "trip_activity";
+    public static final String TABLE_POST = "post";
+    public static final String TABLE_POST_VOTE = "post_vote";
 
     // User columns
     public static final String USER_NICKNAME = "nickname";
@@ -59,6 +61,17 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String TRIP_ACTIVITY_PRICE = "price";
     public static final String TRIP_ACTIVITY_STARTS_AT = "starts_at";
     public static final String TRIP_ACTIVITY_ENDS_AT = "ends_at";
+
+    // Post columns
+    public static final String POST_ID = "id";
+    public static final String POST_CREATOR = "creator";
+    public static final String POST_DATE = "publication_date";
+    public static final String POST_CONTENT = "content";
+
+    // Post votes columns
+    public static final String POST_VOTE_VOTER = "voter";
+    public static final String POST_VOTE_POST_ID = "post_id";
+    public static final String POST_VOTE_VALUE = "vote_value";
 
     /**
      * SQL query to create "user" table
@@ -112,12 +125,36 @@ public class DbHelper extends SQLiteOpenHelper {
             + "FOREIGN KEY (" + TRIP_ACTIVITY_ACTIVITY_ID + ") REFERENCES " + TABLE_ACTIVITY + "(" + ACTIVITY_ID + "),"
             + "FOREIGN KEY (" + TRIP_ACTIVITY_TRIP_ID + ") REFERENCES " + TABLE_TRIP + "(" + TRIP_ID + "))";
 
+    /**
+     * SQL query to create "post" table
+     */
+    public static final String CREATE_TABLE_POST = "CREATE TABLE IF NOT EXISTS " + TABLE_POST + "("
+            + POST_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+            + POST_CREATOR + " TEXT NOT NULL,"
+            + POST_DATE + " INTEGER NOT NULL,"
+            + POST_CONTENT + " TEXT NOT NULL,"
+            + " FOREIGN KEY (" + POST_CREATOR + ") REFERENCES " + TABLE_USER + "(" + USER_NICKNAME + "))";
+
+    /**
+     * SQL query to create "post_likes" table
+     */
+    public static final String CREATE_TABLE_POST_VOTES = "CREATE TABLE IF NOT EXISTS " + TABLE_POST_VOTE + "("
+            + POST_VOTE_VOTER + " TEXT NOT NULL,"
+            + POST_VOTE_POST_ID + " INTEGER NOT NULL,"
+            + POST_VOTE_VALUE + " INTEGER NOT NULL,"
+            + "PRIMARY KEY (" + POST_VOTE_VOTER + ", " + POST_VOTE_POST_ID + "),"
+            + "FOREIGN KEY (" + POST_VOTE_VOTER + ") REFERENCES " + TABLE_USER + "(" + USER_NICKNAME + "),"
+            + "FOREIGN KEY (" + POST_VOTE_POST_ID + ") REFERENCES " + TABLE_POST + "(" + POST_ID + "))";
+
+
     // Drop queries
     public static final String DROP_TABLE_USER = "DROP TABLE " + TABLE_USER;
     public static final String DROP_TABLE_GUEST = "DROP TABLE " + TABLE_GUEST;
     public static final String DROP_TABLE_TRIP = "DROP TABLE " + TABLE_TRIP;
     public static final String DROP_TABLE_ACTIVITY = "DROP TABLE " + TABLE_ACTIVITY;
     public static final String DROP_TABLE_TRIP_ACTIVITY = "DROP TABLE " + TABLE_TRIP_ACTIVITY;
+    public static final String DROP_TABLE_POST = "DROP TABLE " + TABLE_POST;
+    public static final String DROP_TABLE_POST_VOTE = "DROP TABLE " + TABLE_POST_VOTE;
 
     private DbHelper(Context context) {
         super(context, NAME, null, VERSION);
@@ -137,6 +174,8 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_GUEST);
         sqLiteDatabase.execSQL(CREATE_TABLE_ACTIVITY);
         sqLiteDatabase.execSQL(CREATE_TABLE_TRIP_ACTIVITY);
+        sqLiteDatabase.execSQL(CREATE_TABLE_POST);
+        sqLiteDatabase.execSQL(CREATE_TABLE_POST_VOTES);
     }
 
     @Override
@@ -147,6 +186,8 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(DROP_TABLE_GUEST);
         sqLiteDatabase.execSQL(DROP_TABLE_ACTIVITY);
         sqLiteDatabase.execSQL(DROP_TABLE_TRIP_ACTIVITY);
+        sqLiteDatabase.execSQL(DROP_TABLE_POST);
+        sqLiteDatabase.execSQL(DROP_TABLE_POST_VOTE);
 
         // Recreate all tables
         sqLiteDatabase.execSQL(CREATE_TABLE_USER);
@@ -154,5 +195,7 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_GUEST);
         sqLiteDatabase.execSQL(CREATE_TABLE_ACTIVITY);
         sqLiteDatabase.execSQL(CREATE_TABLE_TRIP_ACTIVITY);
+        sqLiteDatabase.execSQL(CREATE_TABLE_POST);
+        sqLiteDatabase.execSQL(CREATE_TABLE_POST_VOTES);
     }
 }

@@ -76,4 +76,9 @@
     <string name="how_is_activity">How is the activity?</string>
     <string name="save_changes">Save changes</string>
 
+    <string name="post">Post</string>
+    <string name="post_edit_hint">What\'s up?</string>
+    
+    <string name="news_feed">News feed</string>
+
 </resources>
