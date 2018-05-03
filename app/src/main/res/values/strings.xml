@@ -85,4 +85,7 @@
     <string name="n_guests">%d guests</string>
     <string name="no_guest_in_trip">There is no guest in this trip.</string>
 
+    <string name="no_trip_at_all">There is no trip in the app.</string>
+    <string name="no_user_trip">You have no trip planned.</string>
+
 </resources>

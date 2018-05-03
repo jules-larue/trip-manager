@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.android.tripmanager.R;
 import com.example.android.tripmanager.UserConnectedManager;
@@ -26,6 +27,7 @@ public class TripsListFragment extends Fragment {
 
     private RecyclerView mTripList;
     private FloatingActionButton mBtnAddTrip;
+    private TextView mTvNoTrip;
 
     public enum TripSelection { ALL_TRIPS, USER_TRIPS }
     private TripSelection mTripSelection;
@@ -50,6 +52,7 @@ public class TripsListFragment extends Fragment {
         // Init widgets
         mTripList = getView().findViewById(R.id.rv_all_trips);
         mBtnAddTrip = getView().findViewById(R.id.fab_add_trip);
+        mTvNoTrip = getView().findViewById(R.id.tv_no_trip);
 
         mTripList.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -74,6 +77,7 @@ public class TripsListFragment extends Fragment {
         TripDao tripDao = new TripDao(getContext());
 
         ArrayList<TripBean> trips = new ArrayList<>();
+        String textNoTrip = null;
         // Get the correct trips and
         // set the action title correctly
         switch (mTripSelection) {
@@ -81,6 +85,7 @@ public class TripsListFragment extends Fragment {
                 // Get all the trips of the app
                 trips = tripDao.getAllTrips(true, true);
                 getActivity().setTitle(R.string.all_trips);
+                textNoTrip = getString(R.string.no_trip_at_all);
                 break;
             case USER_TRIPS:
                 // Get only the trips that connected user
@@ -90,7 +95,19 @@ public class TripsListFragment extends Fragment {
                         true,
                         userConnected.getNickname());
                 getActivity().setTitle(R.string.your_trips);
+                textNoTrip = getString(R.string.no_user_trip);
                 break;
+        }
+        mTvNoTrip.setText(textNoTrip);
+
+        if (trips.isEmpty()) {
+            // No trip
+            mTripList.setVisibility(View.GONE);
+            mTvNoTrip.setVisibility(View.VISIBLE);
+        } else {
+            // At least one trip
+            mTripList.setVisibility(View.VISIBLE);
+            mTvNoTrip.setVisibility(View.GONE);
         }
 
         TripsAdapter tripsAdapter = new TripsAdapter(getContext(), trips);
