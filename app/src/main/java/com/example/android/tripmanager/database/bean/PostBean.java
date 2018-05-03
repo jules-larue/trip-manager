@@ -25,7 +25,7 @@ public class PostBean {
      */
     private HashMap<VoteValue, Integer> mVotes;
 
-    public static final String DATE_FORMAT = "MMM, d yyyy HH:mm";
+    public static final String DATE_FORMAT = "MMM d, yyyy HH:mm";
 
     public PostBean(UserBean creator, long date, String content) {
         mCreator = creator;
