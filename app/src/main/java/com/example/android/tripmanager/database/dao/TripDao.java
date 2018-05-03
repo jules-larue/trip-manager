@@ -287,7 +287,7 @@ public class TripDao {
 
         Cursor cursorTripsJoined = db.query(DbHelper.TABLE_TRIP + " natural join " + DbHelper.TABLE_GUEST,
                 null,
-                DbHelper.GUEST_NICKNAME + " = ?",
+                DbHelper.GUEST_NICKNAME + " = ? AND " + DbHelper.TRIP_ID + " = " + DbHelper.GUEST_TRIP,
                 new String[]{ userNickname },
                 null,
                 null,
