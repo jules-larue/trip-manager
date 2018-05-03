@@ -2,6 +2,7 @@ package com.example.android.tripmanager.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class GuestsAdapter extends RecyclerView.Adapter<GuestsAdapter.GuestViewH
     @Override
     public void onBindViewHolder(GuestViewHolder holder, int position) {
         UserBean user = mGuests.get(position);
+        Log.d("BADA", position + " : " + user.getNickname());
 
         holder.nickname.setText(user.getNickname());
 

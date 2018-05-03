@@ -22,9 +22,10 @@
         <activity android:name=".activity.TripActivitiesListActivity" />
         <activity android:name=".activity.AllActivitiesActivity" />
         <activity android:name=".activity.AddTripActivity" />
-        <activity android:name=".activity.GuestsListActivity" />
-        <activity android:name=".activity.HomeActivity"
-            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".activity.HomeActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activity.GuestsActivity"></activity>
     </application>
 
 </manifest>

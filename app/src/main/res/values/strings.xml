@@ -78,7 +78,11 @@
 
     <string name="post">Post</string>
     <string name="post_edit_hint">What\'s up?</string>
-    
+
     <string name="news_feed">News feed</string>
+
+    <string name="one_guest">1 guest</string>
+    <string name="n_guests">%d guests</string>
+    <string name="no_guest_in_trip">There is no guest in this trip.</string>
 
 </resources>

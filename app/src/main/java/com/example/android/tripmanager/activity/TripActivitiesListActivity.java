@@ -20,6 +20,7 @@ public class TripActivitiesListActivity extends AppCompatActivity {
 
     private RecyclerView mActivitiesList;
 
+    private FloatingActionButton mFabGuests;
     private FloatingActionButton mFabAddActivity;
 
     private TextView mTvNoActivity;
@@ -38,6 +39,7 @@ public class TripActivitiesListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_trip_activities_list);
 
         mActivitiesList = findViewById(R.id.rv_trip_activities);
+        mFabGuests = findViewById(R.id.fab_guests);
         mFabAddActivity = findViewById(R.id.fab_add_trip_activity);
         mTvNoActivity = findViewById(R.id.tv_no_trip_activity);
         mActivitiesList.setLayoutManager(new LinearLayoutManager(this));
@@ -50,6 +52,15 @@ public class TripActivitiesListActivity extends AppCompatActivity {
                 .getLongExtra(EXTRA_TRIP_ID, -1);
 
         // Set FABs action
+        mFabGuests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent guestsActivityIntent = new Intent(TripActivitiesListActivity.this, GuestsActivity.class);
+                guestsActivityIntent.putExtra(GuestsActivity.EXTRA_TRIP_ID, mTripId);
+                startActivity(guestsActivityIntent);
+            }
+        });
+
         mFabAddActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
