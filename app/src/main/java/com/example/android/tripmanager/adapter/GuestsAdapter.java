@@ -35,7 +35,6 @@ public class GuestsAdapter extends RecyclerView.Adapter<GuestsAdapter.GuestViewH
     @Override
     public void onBindViewHolder(GuestViewHolder holder, int position) {
         UserBean user = mGuests.get(position);
-        Log.d("BADA", position + " : " + user.getNickname());
 
         holder.nickname.setText(user.getNickname());
 

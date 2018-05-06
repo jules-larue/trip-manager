@@ -24,6 +24,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class AddTripActivityActivity extends AppCompatActivity {
 
@@ -172,6 +173,19 @@ public class AddTripActivityActivity extends AppCompatActivity {
                 }
             } catch (NumberFormatException e) {
                 return false;
+            }
+
+            // Check that start date is not after the end
+            DateFormat dateFormat = new SimpleDateFormat(TripActivityBean.DATETIME_FORMAT);
+            try {
+                Date dateStart = dateFormat.parse(startsAt);
+                Date dateEnd = dateFormat.parse(endsAt);
+
+                if (dateStart.after(dateEnd)) {
+                    return false;
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
 
             return true;

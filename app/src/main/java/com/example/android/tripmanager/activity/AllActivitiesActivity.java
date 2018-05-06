@@ -51,6 +51,11 @@ public class AllActivitiesActivity extends AppCompatActivity {
         ActivityDao activityDao = new ActivityDao(getApplicationContext());
         ArrayList<ActivityBean> allActivities = activityDao.getAllActivitiesWithAverage(true);
 
+        // Go directly to next activity if there is nothing to show
+        if (allActivities.isEmpty()) {
+            startNextActivity();
+        }
+
         // Init adapter and display data
         AllActivitiesAdapter adapter = new AllActivitiesAdapter(this,
                 allActivities,
@@ -60,14 +65,19 @@ public class AllActivitiesActivity extends AppCompatActivity {
         mBtnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent createNewActivityIntent = new Intent(AllActivitiesActivity.this, AddTripActivityActivity.class);
-                createNewActivityIntent.putExtra(AddTripActivityActivity.EXTRA_TRIP_ID, mTripId);
-                startActivity(createNewActivityIntent);
-
-                // Current activity should be killed
-                finish();
+                startNextActivity();
             }
         });
+    }
+
+
+    private void startNextActivity() {
+        Intent createNewActivityIntent = new Intent(AllActivitiesActivity.this, AddTripActivityActivity.class);
+        createNewActivityIntent.putExtra(AddTripActivityActivity.EXTRA_TRIP_ID, mTripId);
+        startActivity(createNewActivityIntent);
+
+        // Current activity should be killed
+        finish();
     }
 
     @Override

@@ -64,6 +64,8 @@ public class AddTripActivity extends AppCompatActivity {
 
                     // Kill this activity
                     finish();
+                } else {
+                    Toast.makeText(AddTripActivity.this, "Please check that fields are correct.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
